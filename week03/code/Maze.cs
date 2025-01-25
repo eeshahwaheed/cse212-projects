@@ -32,7 +32,21 @@ public class Maze
     /// </summary>
     public void MoveLeft()
     {
-        // FILL IN CODE
+    
+        if (!_mazeMap.ContainsKey((_currX, _currY)))
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+
+        var directions = _mazeMap[(_currX, _currY)];
+
+        if (!directions[0]) // left is false in the array
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+
+        // Move left by decrementing x
+        _currX--;
     }
 
     /// <summary>
@@ -41,7 +55,20 @@ public class Maze
     /// </summary>
     public void MoveRight()
     {
-        // FILL IN CODE
+        if (!_mazeMap.ContainsKey((_currX, _currY)))
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+
+        var directions = _mazeMap[(_currX, _currY)];
+
+        if (!directions[1]) // right is false in the array
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+
+        // Move right by incrementing x
+        _currX++;
     }
 
     /// <summary>
@@ -50,7 +77,20 @@ public class Maze
     /// </summary>
     public void MoveUp()
     {
-        // FILL IN CODE
+         if (!_mazeMap.ContainsKey((_currX, _currY)))
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+
+        var directions = _mazeMap[(_currX, _currY)];
+
+        if (!directions[2]) // up is false in the array
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+
+        // Move up by decrementing y
+        _currY--;
     }
 
     /// <summary>
@@ -59,7 +99,20 @@ public class Maze
     /// </summary>
     public void MoveDown()
     {
-        // FILL IN CODE
+        if (!_mazeMap.ContainsKey((_currX, _currY)))
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+
+        var directions = _mazeMap[(_currX, _currY)];
+
+        if (!directions[3]) // down is false in the array
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+
+        // Move down by incrementing y
+        _currY++;
     }
 
     public string GetStatus()

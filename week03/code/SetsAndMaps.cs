@@ -22,7 +22,22 @@ public static class SetsAndMaps
     public static string[] FindPairs(string[] words)
     {
         // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        var seen = new HashSet<string>();
+        var pairs = new List<string>();
+         
+        foreach (var word in words)
+        {
+        var reversed = new string(word.Reverse().ToArray());
+        
+        if (seen.Contains(reversed) && word != reversed)
+        {
+            pairs.Add($"{word} & {reversed}");
+        }
+        
+        seen.Add(word);
+        }
+    
+    return pairs.ToArray();
     }
 
     /// <summary>
@@ -43,10 +58,23 @@ public static class SetsAndMaps
         {
             var fields = line.Split(",");
             // TODO Problem 2 - ADD YOUR CODE HERE
+            if (fields.Length > 3)
+            {
+            var degree = fields[3].Trim();
+            if (degrees.ContainsKey(degree))
+            {
+                degrees[degree]++;
+            }
+            else
+            {
+                degrees[degree] = 1;
+            }
+            }
         }
 
-        return degrees;
+        return degrees;   
     }
+    
 
     /// <summary>
     /// Determine if 'word1' and 'word2' are anagrams.  An anagram
@@ -64,11 +92,57 @@ public static class SetsAndMaps
     /// Reminder: You can access a letter by index in a string by 
     /// using the [] notation.
     /// </summary>
-    public static bool IsAnagram(string word1, string word2)
+public static bool IsAnagram(string word1, string word2)
+{
+    // Remove spaces and convert to lowercase for case-insensitivity
+    word1 = word1.Replace(" ", "").ToLower();
+    word2 = word2.Replace(" ", "").ToLower();
+
+    // If lengths differ, they can't be anagrams
+    if (word1.Length != word2.Length)
     {
-        // TODO Problem 3 - ADD YOUR CODE HERE
         return false;
     }
+
+    // Create a frequency array for characters in both strings
+    var charCount = new int[256]; // Assuming ASCII characters
+
+    // Count characters in word1
+    foreach (var c in word1)
+    {
+        charCount[c]++;
+    }
+
+    // Subtract character counts based on word2
+    foreach (var c in word2)
+    {
+        charCount[c]--;
+    }
+
+    // If any count is not zero, then the words are not anagrams
+    foreach (var count in charCount)
+    {
+        if (count != 0)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+    public class Feature
+{
+    public string Place { get; set; }
+    public double Mag { get; set; }
+}
+
+public class FeatureCollection
+{
+    public List<Feature> Features { get; set; }
+}
+
 
     /// <summary>
     /// This function will read JSON (Javascript Object Notation) data from the 
@@ -101,6 +175,11 @@ public static class SetsAndMaps
         // on those classes so that the call to Deserialize above works properly.
         // 2. Add code below to create a string out each place a earthquake has happened today and its magitude.
         // 3. Return an array of these string descriptions.
-        return [];
+       
+        var earthquakeSummaries = featureCollection.Features
+        .Select(feature => $"{feature.Place} - Mag {feature.Mag}")
+        .ToArray();
+
+    return earthquakeSummaries;
     }
 }
